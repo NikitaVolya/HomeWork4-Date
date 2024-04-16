@@ -10,8 +10,8 @@ private:
 	unsigned short year;
 
 public:
-	Date(int pDay, int pMounth, int pYear) : day(1), mounth(1), year(1) 
-	{ setDay(pDay); setMount(pMounth); setYear(pYear); };
+	Date(short pDay, short pMounth, short pYear) : day(1), mounth(1), year(1)
+	{ setDay(pDay); setMounth(pMounth); setYear(pYear); };
 
 	bool isLeapYear() const { return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0); };
 
@@ -19,9 +19,9 @@ public:
 	int getMounth() const { return mounth; }
 	int getYear() const { return year; }
 
-	void setDay(int pDay);
-	void setMount(int pMounth);
-	void setYear(int pYear);
+	void setDay(short pDay);
+	void setMounth(short pMounth);
+	void setYear(short pYear);
 
 	void operator-=(int pDays);
 	void operator+=(int pDays);

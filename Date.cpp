@@ -1,7 +1,7 @@
 #include "Date.h"
 
 
-void Date::setDay(int pDay)
+void Date::setDay(short pDay)
 {
 	if (pDay <= 0 || pDay > 31)
 	{
@@ -11,7 +11,7 @@ void Date::setDay(int pDay)
 	day = pDay;
 }
 
-void Date::setMount(int pMounth)
+void Date::setMounth(short pMounth)
 {
 	if (pMounth <= 0 || pMounth > 12)
 	{
@@ -22,7 +22,7 @@ void Date::setMount(int pMounth)
 	mounth = pMounth;
 }
 
-void Date::setYear(int pYear)
+void Date::setYear(short pYear)
 {
 	if (pYear <= 0)
 	{
