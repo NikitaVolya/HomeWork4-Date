@@ -5,15 +5,16 @@
 class Date
 {
 private:
-	unsigned short day : 5;
-	unsigned short mounth : 4;
 	unsigned short year;
+	unsigned short mounth : 4;
+	unsigned short day : 5;
 
 public:
+	Date(const Date& pOther) : year(pOther.year), mounth(pOther.mounth), day(pOther.day) {};
 	Date(short pDay, short pMounth, short pYear) : day(1), mounth(1), year(1)
-	{ setDay(pDay); setMounth(pMounth); setYear(pYear); };
+	{ setYear(pYear); setMounth(pMounth); setDay(pDay);};
 
-	bool isLeapYear() const { return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0); };
+	bool isLeapYear() const { return Date::LeapYear(year); };
 
 	int getDay() const { return day; }
 	int getMounth() const { return mounth; }
@@ -26,12 +27,23 @@ public:
 	void operator-=(int pDays);
 	void operator+=(int pDays);
 
+	const Date operator-(int pDays);
+	const Date operator+(int pDays);
+
+	int operator-(const Date& other);
+
 	bool operator==(const Date& other) const;
 	bool operator!=(const Date& other) const;
 
+	const Date& operator++();
+	const Date operator++(int);
+
+	const Date& operator--();
+	const Date operator--(int);
+
 	unsigned int toDays() const;
 
-	unsigned int differenceInDays(const Date& other) const;
+	int differenceInDays(const Date& other) const;
 	void print() const;
 
 	static int getMounthDaysNumber(int pMount, int pYear);

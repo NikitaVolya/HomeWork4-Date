@@ -3,7 +3,7 @@
 
 void Date::setDay(short pDay)
 {
-	if (pDay <= 0 || pDay > 31)
+	if (pDay <= 0 || pDay > getMounthDaysNumber(mounth, year))
 	{
 		std::cout << "[ INFO ] Date: ivalide day number!\n";
 		return;
@@ -55,15 +55,35 @@ void Date::operator+=(int pDays)
 
 	while (getMounthDaysNumber(mounth, year) < tmpDay)
 	{
-		tmpDay = std::max(tmpDay - getMounthDaysNumber(mounth++, year), 1);
+		tmpDay = tmpDay - getMounthDaysNumber(mounth++, year);
 		if (mounth > 12)
 		{
 			year++;
 			mounth = 1;
 		}
 	}
-
 	day = tmpDay;
+}
+
+
+const Date Date::operator-(int pDays)
+{
+	Date tmp(*this);
+	tmp -= pDays;
+	return tmp;
+}
+
+const Date Date::operator+(int pDays)
+{
+	Date tmp(*this);
+	tmp += pDays;
+	return tmp;
+}
+
+
+int Date::operator-(const Date& other)
+{
+	return differenceInDays(other);
 }
 
 bool Date::operator==(const Date& other) const
@@ -76,35 +96,81 @@ bool Date::operator!=(const Date& other) const
 	return day != other.day || mounth != other.mounth || year != other.year;
 }
 
+const Date& Date::operator++()
+{
+	int tmpDay = (int)day + 1;
+
+	if (tmpDay > getMounthDaysNumber(mounth, year))
+		tmpDay -= getMounthDaysNumber(mounth++, year);
+
+	if (mounth > 12)
+	{
+		year = year + 1;
+		mounth = 1;
+	}
+
+	day = tmpDay;
+
+	return *this;
+}
+
+const Date Date::operator++(int)
+{
+	Date tmp(*this);
+	++(*this);
+	return tmp;
+}
+
+const Date& Date::operator--()
+{
+	--day;
+
+	if (day == 0)
+	{
+		if (--mounth == 0)
+		{
+			mounth = 12;
+			year--;
+		}
+		day = getMounthDaysNumber(mounth, year);
+	}
+	
+	return *this;
+}
+
+const Date Date::operator--(int)
+{
+	Date tmp(*this);
+	--(*this);
+	return tmp;
+}
+
 unsigned int Date::toDays() const
 {
 	unsigned int days = 0;
 
-	int currentYear = year - 1;
-	int currentMounth = mounth - 1;
-
-	for (; 0 < currentYear; currentYear--)
+	for (int currentYear = year - 1; 0 < currentYear; currentYear--)
 		if (LeapYear(currentYear))
 			days += 366;
 		else
 			days += 365;
 
-	for (; 0 < currentMounth; currentMounth--)
+	for (int currentMounth = mounth - 1; 0 < currentMounth; currentMounth--)
 		days += getMounthDaysNumber(currentMounth, year);
 		
 
 	return days + day;
 }
 
-unsigned int Date::differenceInDays(const Date& other) const
+int Date::differenceInDays(const Date& other) const
 {
 	unsigned int first = toDays();
 	unsigned int second = other.toDays();
 
 	if (first > second)
-		return first - second;
+		return (int)(first - second);
 	else
-		return second - first;
+		return -(int)(second - first);
 }
 
 void Date::print() const

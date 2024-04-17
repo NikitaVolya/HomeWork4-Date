@@ -5,14 +5,8 @@
 
 int main()
 {
-	Date a(13, 3, 2006);
-	Date b(16, 4, 2024);
+	Date a(22, 2, 1939);
+	Date b(24, 2, 2022);
 
-	a += 20;
-	b -= 154;
-
-	a.print();
-	b.print();
-
-	std::cout << b.differenceInDays(a);
+	(a + 9999).print();
 }
